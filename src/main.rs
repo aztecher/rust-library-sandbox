@@ -3,6 +3,8 @@
 // This example demonstrates clap's "builder pattern" method of creating arguments
 // which the most flexible, but also most verbose.
 use clap::{Arg, App};
+// use self::my_serde::sample;
+use rust_library_sandbox::my_serde::sample as serde_sample;
 
 fn main() {
     let matches = App::new("My Super Program")
@@ -15,10 +17,10 @@ fn main() {
             .value_name("FILE")
             .about("Sets a custom config file")
             .takes_value(true))
-        .arg(Arg::new("INPUT")
-            .about("Sets the input file to use")
-            .required(true)
-            .index(1))
+        // .arg(Arg::new("INPUT")
+        //     .about("Sets the input file to use")
+        //     .required(true)
+        //     .index(1))
         .arg(Arg::new("v")
             .short('v')
             .multiple_occurrences(true)
@@ -31,12 +33,17 @@ fn main() {
             .arg(Arg::new("debug")
                 .short('d')
                 .about("print debug information verbosely")))
+        .subcommand(App::new("serde")
+            .about("Example Serde package")
+            .arg(Arg::new("example")
+                .takes_value(true)
+                .about("Sample Serde serialize/deserialize")))
         .get_matches();
 
-    // You can check the value provided by positional arguments, or option arguments
-    if let Some(i) = matches.value_of("INPUT") {
-        println!("Value for input: {}", i);
-    }
+    // // You can check the value provided by positional arguments, or option arguments
+    // if let Some(i) = matches.value_of("INPUT") {
+    //     println!("Value for input: {}", i);
+    // }
 
     if let Some(c) = matches.value_of("config") {
         println!("Value for config: {}", c);
@@ -60,6 +67,12 @@ fn main() {
             println!("Printing debug info...");
         } else {
             println!("Printing normally...");
+        }
+    } else if let Some(ref matches) = matches.subcommand_matches("serde") {
+        if matches.is_present("example") {
+            serde_sample::serialize_deserialize_example();
+        } else {
+            println!("Serde not work because of unexpected command parameters ...")
         }
     }
 
