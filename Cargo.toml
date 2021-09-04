@@ -9,9 +9,9 @@ edition = "2018"
 name = "helloworld-server"
 path = "src/grpc/server.rs"
 
-# [[bin]] # Bin to run the HelloWorld gRPC client
-# name = "helloworld-client"
-# path = "src/grpc/client.rs"
+[[bin]] # Bin to run the HelloWorld gRPC client
+name = "helloworld-client"
+path = "src/grpc/client.rs"
 
 [dependencies]
 clap = "3.0.0-beta.2"

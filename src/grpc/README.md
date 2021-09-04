@@ -21,4 +21,10 @@ grpcurl -plaintext -import-path ./proto -proto helloworld.proto -d '{"name": "To
 
 in my sandbox code, gRPC server bind the `localhost:50051` address/port.  
 
+or, you can execute client call by src/grpc/client.rs's implementation
 
+```
+cargo run --bin helloworld-client
+```
+
+for more information, you can see in Cargo.toml
