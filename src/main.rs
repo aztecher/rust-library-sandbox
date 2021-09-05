@@ -5,6 +5,7 @@
 use clap::{Arg, App};
 // use self::my_serde::sample;
 use rust_library_sandbox::my_serde::sample as serde_sample;
+use rust_library_sandbox::slack_api::client as slack_client;
 
 fn main() {
     let matches = App::new("My Super Program")
@@ -38,6 +39,16 @@ fn main() {
             .arg(Arg::new("example")
                 .takes_value(true)
                 .about("Sample Serde serialize/deserialize")))
+        .subcommand(App::new("slack")
+            .about("Slack example")
+            .subcommand(App::new("post")
+                .about("Example of posting slack message")
+                .arg(Arg::new("config")
+                     .short('c')
+                     .long("config")
+                     .value_name("FILE")
+                     .about("Slack config file")
+                     .required(true))))
         .get_matches();
 
     // // You can check the value provided by positional arguments, or option arguments
@@ -73,6 +84,16 @@ fn main() {
             serde_sample::serialize_deserialize_example();
         } else {
             println!("Serde not work because of unexpected command parameters ...")
+        }
+    } else if let Some(ref matches) = matches.subcommand_matches("slack") {
+        if let Some(ref matches) = matches.subcommand_matches("post") {
+            if let Some(config) = matches.value_of("config") {
+                println!("Read config file : {config}", config=config);
+                match slack_client::post_from_file(config) {
+                    Ok(_) => return,
+                    Err(e) => println!("error while posting to slack api: {error}", error=e),
+                }
+            }
         }
     }
 
