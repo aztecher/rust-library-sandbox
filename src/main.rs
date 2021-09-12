@@ -8,6 +8,9 @@ use rust_library_sandbox::my_serde::sample as serde_sample;
 use rust_library_sandbox::slack_api::client as slack_client;
 use rust_library_sandbox::design_patterns::ideom;
 
+// load for test
+use rust_library_sandbox::design_patterns::format_string;
+
 fn main() {
     let matches = App::new("My Super Program")
         .version("1.0")
