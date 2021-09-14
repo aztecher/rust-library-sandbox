@@ -7,6 +7,7 @@ use clap::{Arg, App};
 use rust_library_sandbox::my_serde::sample as serde_sample;
 use rust_library_sandbox::slack_api::client as slack_client;
 use rust_library_sandbox::design_patterns::ideom;
+use rust_library_sandbox::my_sandbox::sandbox;
 
 // load for test
 use rust_library_sandbox::design_patterns::format_string;
@@ -58,6 +59,18 @@ fn main() {
             .arg(Arg::new("type-coercions")
                 .about("Example of design patterns of type coercions")
                 .takes_value(true)))
+        .subcommand(App::new("sandbox")
+            .about("Sandbox")
+            .subcommand(App::new("ownership")
+                .about("Example of sandbox of ownership"))
+            .subcommand(App::new("slice")
+                .about("Example of sandbox of slice")))
+            // .arg(Arg::new("ownership")
+            //     .about("Example of sandbox of ownership")
+            //     .takes_value(true))
+            // .arg(Arg::new("slice")
+            //     .about("Example of sandbox of slice")
+            //     .takes_value(true)))
         .get_matches();
 
     // // You can check the value provided by positional arguments, or option arguments
@@ -111,6 +124,17 @@ fn main() {
             println!("{}: {}", ferris, ideom::three_vowels(&ferris));
             println!("{}: {}", curious, ideom::three_vowels(&curious));
         }
+    } else if let Some(ref matches) = matches.subcommand_matches("sandbox") {
+        if let Some(ref _matches) = matches.subcommand_matches("ownership") {
+            sandbox::ownership();
+        } else if let Some(ref _matches) = matches.subcommand_matches("slice") {
+            sandbox::slice();
+        }
+        // if matches.is_present("ownership") {
+        //     sandbox::ownership();
+        // } else if matches.is_present("slice") {
+        //     sandbox::slice();
+        // }
     }
 
     // Continued program logic goes here...
