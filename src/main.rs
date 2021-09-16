@@ -8,6 +8,7 @@ use rust_library_sandbox::my_serde::sample as serde_sample;
 use rust_library_sandbox::slack_api::client as slack_client;
 use rust_library_sandbox::design_patterns::ideom;
 use rust_library_sandbox::my_sandbox::sandbox;
+use rust_library_sandbox::my_sandbox::smartpointers;
 
 // load for test
 use rust_library_sandbox::design_patterns::format_string;
@@ -64,7 +65,9 @@ fn main() {
             .subcommand(App::new("ownership")
                 .about("Example of sandbox of ownership"))
             .subcommand(App::new("slice")
-                .about("Example of sandbox of slice")))
+                .about("Example of sandbox of slice"))
+            .subcommand(App::new("box_example")
+                .about("Example of box")))
             // .arg(Arg::new("ownership")
             //     .about("Example of sandbox of ownership")
             //     .takes_value(true))
@@ -129,6 +132,8 @@ fn main() {
             sandbox::ownership();
         } else if let Some(ref _matches) = matches.subcommand_matches("slice") {
             sandbox::slice();
+        } else if let Some(ref _matches) = matches.subcommand_matches("box_example") {
+            smartpointers::box_example();
         }
         // if matches.is_present("ownership") {
         //     sandbox::ownership();
