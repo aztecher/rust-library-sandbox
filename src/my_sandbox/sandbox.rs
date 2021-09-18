@@ -43,3 +43,67 @@ fn _first_word(s: &str) -> &str {
     }
     &s[..]
 }
+
+struct MyStruct {
+    first: u32,
+}
+
+impl MyStruct {
+    fn test_move(self) -> u32 {
+        self.first
+    }
+    fn test_reference_val(&self) -> u32 {
+        self.first
+    }
+    fn test_reference_refval(&self) -> &u32 {
+        &self.first
+    }
+}
+
+pub fn test_mystruct_reference() {
+    let s = MyStruct { first: 1 };
+
+    // // Pattern: 1
+    // // moved after test_reference_move because ownership was moved when self.first in that
+    // // function
+    // let v = s.test_move();
+    // let val = s.test_reference_val();
+    // // bellow code was compile error
+    //
+    //
+    // // Pattern : 2
+    // // MyStruct.first is not after test_reference_move because *self is only reference
+    // // but, test_reference_value requires Copy Traits to copy it's data
+    let val = s.test_reference_val();
+    let refval = s.test_reference_refval();
+    assert_eq!(1, val);
+    assert_eq!(1, s.first);
+    assert_eq!(1, *refval);
+    println!("val = {}, s.first = {}, refval = {}", val, s.first, refval);
+}
+
+struct MyAloneTuple<T>(T);
+
+impl <T> MyAloneTuple<T> where T: Copy {
+    fn new(x: T) -> MyAloneTuple<T> {
+        MyAloneTuple(x)
+    }
+    fn test_reference_val(&self) -> T {
+        self.0
+    }
+    fn test_reference_refval(&self) -> &T {
+        &self.0
+    }
+}
+
+
+pub fn test_myalonetuple_reference() {
+    let t = MyAloneTuple::new(1);
+
+    let val = t.test_reference_val();
+    let refval = t.test_reference_refval();
+
+    assert_eq!(1, val);
+    assert_eq!(1, *refval);
+    println!("val = {}, refval = {}", val, refval);
+}
