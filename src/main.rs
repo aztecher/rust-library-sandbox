@@ -9,6 +9,7 @@ use rust_library_sandbox::slack_api::client as slack_client;
 use rust_library_sandbox::design_patterns::ideom;
 use rust_library_sandbox::my_sandbox::sandbox;
 use rust_library_sandbox::my_sandbox::smartpointers;
+use rust_library_sandbox::my_sandbox::mybox;
 
 // load for test
 use rust_library_sandbox::design_patterns::format_string;
@@ -66,8 +67,15 @@ fn main() {
                 .about("Example of sandbox of ownership"))
             .subcommand(App::new("slice")
                 .about("Example of sandbox of slice"))
+            .subcommand(App::new("struct_reference")
+                .about("Example of reference of struct"))
+            .subcommand(App::new("myalonetuple_reference")
+                .about("Example of MyAloneTuple"))
             .subcommand(App::new("box_example")
-                .about("Example of box")))
+                .about("Example of box"))
+            .subcommand(App::new("mybox_example")
+                .about("Example of MyBox"))
+            )
             // .arg(Arg::new("ownership")
             //     .about("Example of sandbox of ownership")
             //     .takes_value(true))
@@ -132,8 +140,14 @@ fn main() {
             sandbox::ownership();
         } else if let Some(ref _matches) = matches.subcommand_matches("slice") {
             sandbox::slice();
+        } else if let Some(ref _matches) = matches.subcommand_matches("struct_reference") {
+            sandbox::test_mystruct_reference();
+        } else if let Some(ref _matches) = matches.subcommand_matches("myalonetuple_reference") {
+            sandbox::test_myalonetuple_reference();
         } else if let Some(ref _matches) = matches.subcommand_matches("box_example") {
             smartpointers::box_example();
+        } else if let Some(ref _matches) = matches.subcommand_matches("mybox_example") {
+            mybox::mybox_example();
         }
         // if matches.is_present("ownership") {
         //     sandbox::ownership();
