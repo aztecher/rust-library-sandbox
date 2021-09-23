@@ -77,6 +77,8 @@ fn main() {
                 .about("Example of MyBox"))
             .subcommand(App::new("rc_example")
                 .about("Example of rc_example"))
+            .subcommand(App::new("refcall_example1")
+                .about("Example of refcall_example1"))
             )
             // .arg(Arg::new("ownership")
             //     .about("Example of sandbox of ownership")
@@ -152,6 +154,8 @@ fn main() {
             mybox::mybox_example();
         } else if let Some(ref _matches) = matches.subcommand_matches("rc_example") {
             smartpointers::rc_example();
+        } else if let Some(ref _matches) = matches.subcommand_matches("refcall_example1") {
+            smartpointers::refcall_example1();
         }
         // if matches.is_present("ownership") {
         //     sandbox::ownership();
