@@ -1,4 +1,5 @@
 use std::rc::Rc;
+use std::cell::RefCell;
 
 pub fn _vector_example() {
     // Box<T> locate data to heap
@@ -80,6 +81,36 @@ pub fn rc_example() {
     println!("a (ref count) : {}", Rc::strong_count(&a));
 }
 
+#[derive(Debug)]
+enum ListRcRefCell {
+    ConsRcRefCell(Rc<RefCell<i32>>, Rc<ListRcRefCell>),
+    NilRcRefCell,
+}
+use ListRcRefCell::{ConsRcRefCell, NilRcRefCell};
 
-pub fn refcall_example() {
+// RefCall : internal mutability, apply borrowing rule in 'runtime', not in 'compile time'
+pub fn refcall_example1() {
+    // this code will be compile error because of definition of variable 'x' is immutable, but y
+    // defined as mutable reference
+    // let x = 5;
+    // let y = &mut x;
+    let x = 5;
+    let y = RefCell::new(x);
+    println!("before mut calc... : x, y = {}", x);
+    *y.borrow_mut() += 10;
+    // this will be output as x = 5, y = 15 !!!
+    println!("after mutating... : x, y = {}, {}", x, y.borrow());
+
+    // Rc + RefCell
+    let value = Rc::new(RefCell::new(5));
+    let a = Rc::new(ConsRcRefCell(Rc::clone(&value), Rc::new(NilRcRefCell)));
+    let b = ConsRcRefCell(Rc::new(RefCell::new(6)), Rc::clone(&a));
+    let c = ConsRcRefCell(Rc::new(RefCell::new(10)), Rc::clone(&a));
+    println!("before borrow_mut: a = {:?}", a);
+    println!("before borrow_mut: b = {:?}", b);
+    println!("before borrow_mut: c = {:?}", c);
+    *value.borrow_mut() += 10;
+    println!("after borrow_mut: a = {:?}", a);
+    println!("after borrow_mut: b = {:?}", b);
+    println!("after borrow_mut: c = {:?}", c);
 }
