@@ -10,7 +10,6 @@ use rust_library_sandbox::design_patterns::ideom;
 use rust_library_sandbox::my_sandbox::sandbox;
 use rust_library_sandbox::my_sandbox::smartpointers;
 use rust_library_sandbox::my_sandbox::mybox;
-use rust_library_sandbox::tokio_sandbox::tokio_simple;
 
 // load for test
 use rust_library_sandbox::design_patterns::format_string;
@@ -87,11 +86,11 @@ fn main() {
             // .arg(Arg::new("slice")
             //     .about("Example of sandbox of slice")
             //     .takes_value(true)))
-        .subcommand(App::new("tokio-sandbox")
-            .about("Tokio Sandbox")
-            .subcommand(App::new("simple")
-                .about("Simple Example of Tokio"))
-            )
+        // .subcommand(App::new("tokio-sandbox")
+        //     .about("Tokio Sandbox")
+        //     .subcommand(App::new("simple")
+        //         .about("Simple Example of Tokio"))
+        //     )
         .get_matches();
 
     // // You can check the value provided by positional arguments, or option arguments
@@ -168,10 +167,10 @@ fn main() {
         // } else if matches.is_present("slice") {
         //     sandbox::slice();
         // }
-    } else if let Some(ref matches) = matches.subcommand_matches("tokio-sandbox") {
-        if let Some(ref _matches) = matches.subcommand_matches("simple") {
-            tokio_simple::simple()
-        }
+    // } else if let Some(ref matches) = matches.subcommand_matches("tokio-sandbox") {
+    //     if let Some(ref _matches) = matches.subcommand_matches("simple") {
+    //         tokio_simple::simple()
+        // }
     }
 
     // Continued program logic goes here...
