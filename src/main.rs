@@ -10,6 +10,7 @@ use rust_library_sandbox::design_patterns::ideom;
 use rust_library_sandbox::my_sandbox::sandbox;
 use rust_library_sandbox::my_sandbox::smartpointers;
 use rust_library_sandbox::my_sandbox::mybox;
+use rust_library_sandbox::concurrency;
 
 // load for test
 use rust_library_sandbox::design_patterns::format_string;
@@ -79,6 +80,23 @@ fn main() {
                 .about("Example of rc_example"))
             .subcommand(App::new("refcall_example1")
                 .about("Example of refcall_example1"))
+            .subcommand(App::new("concurrency")
+                .about("Example of conccurency codes")
+                .subcommand(App::new("mutex")
+                    .about("Basic example of Mutex"))
+                .subcommand(App::new("condvar")
+                    .about("Basic example of Condvar"))
+                .subcommand(App::new("rwlock")
+                    .about("Basic example of RwLock"))
+                .subcommand(App::new("barrier")
+                    .about("Basic example of barrier sync"))
+                .subcommand(App::new("semaphore")
+                    .about("Basic example of semaphore"))
+                .subcommand(App::new("channel")
+                    .about("Basic example of channel"))
+                .subcommand(App::new("bakery-algorithm")
+                    .about("Bakery algorithm in Rust"))
+                )
             )
             // .arg(Arg::new("ownership")
             //     .about("Example of sandbox of ownership")
@@ -161,12 +179,35 @@ fn main() {
             smartpointers::rc_example();
         } else if let Some(ref _matches) = matches.subcommand_matches("refcall_example1") {
             smartpointers::refcall_example1();
+        } else if let Some(ref matches) = matches.subcommand_matches("concurrency") {
+            if let Some(ref _matches) = matches.subcommand_matches("mutex") {
+                concurrency::basic::mutex::mutex_sample();
+            }
+            else if let Some(ref _matches) = matches.subcommand_matches("condvar") {
+                concurrency::basic::condvar::condvar_sample();
+            }
+            else if let Some(ref _matches) = matches.subcommand_matches("rwlock") {
+                concurrency::basic::rwlock::rwlock_sample();
+            }
+            else if let Some(ref _matches) = matches.subcommand_matches("barrier") {
+                concurrency::basic::barrier::barrier_sample();
+            }
+            else if let Some(ref _matches) = matches.subcommand_matches("semaphore") {
+                concurrency::basic::semaphore::semaphore_sample();
+            }
+            else if let Some(ref _matches) = matches.subcommand_matches("channel") {
+                concurrency::channel::channel::channel_sample();
+            }
+            else if let Some(ref _matches) = matches.subcommand_matches("bakery-algorithm") {
+                concurrency::algorithm::bakery::bakery_algorithm_impl();
+            }
         }
         // if matches.is_present("ownership") {
         //     sandbox::ownership();
         // } else if matches.is_present("slice") {
         //     sandbox::slice();
         // }
+        //
     // } else if let Some(ref matches) = matches.subcommand_matches("tokio-sandbox") {
     //     if let Some(ref _matches) = matches.subcommand_matches("simple") {
     //         tokio_simple::simple()
