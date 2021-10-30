@@ -102,6 +102,8 @@ fn main() {
                 .about("Exammple of actix-web")
                 .subcommand(App::new("simple-http-server")
                     .about("Basic example of simple-http-server"))
+                .subcommand(App::new("simple-admission-webhook")
+                    .about("Basic example of simple-admission-webhook"))
                 )
             )
             // .arg(Arg::new("ownership")
@@ -210,6 +212,15 @@ fn main() {
         } else if let Some(ref matches) = matches.subcommand_matches("actix-web") {
             if let Some(ref _matches) = matches.subcommand_matches("simple-http-server") {
                 match actix_web_sample::simple_http_server::simple_http_server() {
+                    Ok(_) => {
+                        println!("successfully ending simple-http-server")
+                    },
+                    Err(e) => {
+                        println!("error simple-http-server: {}", e)
+                    }
+                }
+            } else if let Some(ref _matches) = matches.subcommand_matches("simple-admission-webhook") {
+                match actix_web_sample::simple_addmission_webhook::simple_addmission_webhook() {
                     Ok(_) => {
                         println!("successfully ending simple-http-server")
                     },
