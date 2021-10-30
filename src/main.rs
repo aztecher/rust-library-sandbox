@@ -11,6 +11,7 @@ use rust_library_sandbox::my_sandbox::sandbox;
 use rust_library_sandbox::my_sandbox::smartpointers;
 use rust_library_sandbox::my_sandbox::mybox;
 use rust_library_sandbox::concurrency;
+use rust_library_sandbox::actix_web_sample;
 
 // load for test
 use rust_library_sandbox::design_patterns::format_string;
@@ -96,6 +97,11 @@ fn main() {
                     .about("Basic example of channel"))
                 .subcommand(App::new("bakery-algorithm")
                     .about("Bakery algorithm in Rust"))
+                )
+            .subcommand(App::new("actix-web")
+                .about("Exammple of actix-web")
+                .subcommand(App::new("simple-http-server")
+                    .about("Basic example of simple-http-server"))
                 )
             )
             // .arg(Arg::new("ownership")
@@ -200,6 +206,17 @@ fn main() {
             }
             else if let Some(ref _matches) = matches.subcommand_matches("bakery-algorithm") {
                 concurrency::algorithm::bakery::bakery_algorithm_impl();
+            }
+        } else if let Some(ref matches) = matches.subcommand_matches("actix-web") {
+            if let Some(ref _matches) = matches.subcommand_matches("simple-http-server") {
+                match actix_web_sample::simple_http_server::simple_http_server() {
+                    Ok(_) => {
+                        println!("successfully ending simple-http-server")
+                    },
+                    Err(e) => {
+                        println!("error simple-http-server: {}", e)
+                    }
+                }
             }
         }
         // if matches.is_present("ownership") {
