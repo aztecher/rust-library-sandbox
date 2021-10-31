@@ -16,6 +16,15 @@ async fn handle_mutate(
     return HttpResponse::Ok().json("{\"message\":\"ok\"}");
 }
 
+#[post("/validate")]
+async fn handle_validate(
+    req: HttpRequest,
+    body: web::Json<AdmissionReview<DynamicObject>>,
+) -> impl Responder {
+    tracing::info!("validate endpoint handled");
+    return HttpResponse::Ok().json("{\"message\":\"ok\"}");
+}
+
 #[get("/health")]
 async fn health() -> impl Responder {
     tracing::info!("health endpoint handled");
@@ -32,6 +41,7 @@ pub async fn simple_addmission_webhook() -> std::io::Result<()> {
     HttpServer::new(|| {
         App::new()
             .service(handle_mutate)
+            .service(handle_validate)
             .service(health)
     })
     .bind("127.0.0.1:8088")?
